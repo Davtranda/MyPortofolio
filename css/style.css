@@ -201,7 +201,6 @@ body, html {
 @media (max-width: 768px) {
     .hero {
         flex-direction: column;
-        align-items: center;
         padding: 50px 20px;
     }
 
@@ -226,10 +225,6 @@ body, html {
     .hero-image img {
         max-width: 100%;
         border-radius: 50%;
-    }
-
-    .hero-image {
-        margin-bottom: 20px; 
     }
 
     .nav {
