@@ -83,14 +83,19 @@ body, html {
 /* Project Grid Section */
 .project-grid {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-around;
     padding: 50px 20px;
     background: linear-gradient(45deg, #000, #333);
 }
+
 .project-card {
     text-align: center;
     max-width: 300px;
+    margin-bottom: 30px;
+    width: 100%;
 }
+
 .project-card .icon {
     width: 100px;
     height: 100px;
@@ -108,15 +113,18 @@ body, html {
     height: 100%;
     object-fit: cover;
 }
+
 .project-card h3 {
     font-size: 1.2rem;
     margin-bottom: 10px;
 }
+
 .project-card p {
     font-size: 1rem;
     color: #6c757d;
     margin-bottom: 20px;
 }
+
 .project-card .btn {
     background-color: #6c757d;
     color: #ffffff;
@@ -126,6 +134,7 @@ body, html {
     text-decoration: none;
     cursor: pointer;
 }
+
 .project-card .btn:hover {
     background-color: #5a6268;
 }
@@ -253,132 +262,65 @@ body, html {
     color: #0077b5;
 }
 
-/* Media Queries for Mobile */
-@media (max-width: 1200px) {
-    .hero {
-        flex-direction: column;
-        padding: 50px 20px;
-        text-align: center;
-    }
-
-    .content {
-        max-width: 100%;
-    }
-
-    .hero-image img {
-        max-width: 80%;
-        margin-top: 20px;
-    }
-
-    .nav {
-        flex-direction: column;
-        text-align: center;
-        margin-top: 20px;
-    }
-
-    .nav li {
-        margin: 10px 0;
-    }
-
-    .buttons {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .btn {
-        width: 100%;
-    }
-}
-
-@media (max-width: 992px) {
-    .logo {
-        font-size: 24px;
-    }
-
-    .content h1 {
-        font-size: 48px;
-    }
-
-    .content p {
-        font-size: 16px;
-    }
-
-    .hero-image img {
-        max-width: 350px;
-    }
-
-    .nav a {
-        font-size: 14px;
-    }
-}
-
+/* Mobile Responsiveness */
 @media (max-width: 768px) {
     .header {
         flex-direction: column;
-        padding: 20px 10px;
+        padding: 20px;
     }
 
     .nav {
         flex-direction: column;
-        margin-top: 10px;
-    }
-
-    .nav li {
-        margin: 10px 0;
-    }
-
-    .hero {
-        flex-direction: column;
-        padding: 50px 20px;
+        margin-top: 15px;
         text-align: center;
     }
 
-    .hero-image img {
-        max-width: 80%;
+    .carousel {
+        padding: 30px 10px;
     }
 
-    .buttons {
+    .carousel h1 {
+        font-size: 1.5rem;
+    }
+
+    .carousel p {
+        font-size: 0.9rem;
+    }
+
+    .project-grid {
         flex-direction: column;
-        gap: 10px;
+        align-items: center;
+        padding: 30px 10px;
     }
 
-    .btn {
+    .project-card {
+        width: 80%;
+        margin-bottom: 20px;
+    }
+
+    .featurette-item {
+        flex-direction: column;
+        align-items: center;
+        padding: 15px;
+    }
+
+    .featurette-text {
+        max-width: 100%;
+        text-align: center;
+    }
+
+    .featurette-image img {
         width: 100%;
-    }
-
-    .content h1 {
-        font-size: 36px;
-    }
-
-    .content p {
-        font-size: 14px;
-    }
-}
-
-@media (max-width: 480px) {
-    .hero {
-        padding: 40px 10px;
-    }
-
-    .hero-image img {
-        max-width: 75%;
-    }
-
-    .content h1 {
-        font-size: 30px;
-    }
-
-    .content p {
-        font-size: 12px;
-    }
-
-    .btn {
-        font-size: 14px;
-        padding: 10px 20px;
+        max-width: 400px;
     }
 
     .social-media-section h1 {
         font-size: 1.5rem;
+    }
+
+    .icons {
+        flex-direction: column;
+        gap: 15px;
     }
 
     .icon {
@@ -386,8 +328,43 @@ body, html {
         width: 50px;
         height: 50px;
     }
+}
+
+/* Smaller Screens (Mobile) */
+@media (max-width: 480px) {
+    .header {
+        padding: 15px;
+    }
+
+    .logo {
+        font-size: 24px;
+    }
 
     .nav a {
-        font-size: 12px;
+        font-size: 14px;
+    }
+
+    .carousel h1 {
+        font-size: 1.2rem;
+    }
+
+    .carousel p {
+        font-size: 0.8rem;
+    }
+
+    .project-card {
+        width: 90%;
+    }
+
+    .featurette-text h2 {
+        font-size: 1.5rem;
+    }
+
+    .featurette-text p {
+        font-size: 0.9rem;
+    }
+
+    .social-media-section h1 {
+        font-size: 1.2rem;
     }
 }
