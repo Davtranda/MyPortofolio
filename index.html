@@ -9,7 +9,7 @@
 </head>
 <body>
   <header class="header">
-    <div class="logo">Davy Putra Ananda</div>
+    <div class="logo">Davtranda</div>
     <nav>
       <ul class="nav">
         <li><a href="index.html">Home</a></li>
@@ -19,26 +19,8 @@
     </nav>
   </header>
 
-  <section class="hero">
-    <div class="content">
-      <h1>Hello, I'm Davy!</h1>
-      <h2>About Me</h2>
-      <p>My name is Davy Putra Ananda. I am a communicative person who is resilient and quick to learn. Currently studying Information Systems in college, I am persistent in everything I do. 
-        I excel at collaborating with others and am passionate about my work. With a strong interest in data analysis, web and mobile app development, 
-        I have completed several projects, learning valuable lessons from each experience. 
-        Always looking to expand my knowledge and contribute to the field, I aim to create innovative solutions and collaborate with diverse teams 
-        to achieve shared success and bring positive change.</p>
-      <div class="buttons">
-        <button class="btn primary"><a href="project.html" style="text-decoration: none; color: inherit;">View My Portofolio</a></button>
-        <button class="btn secondary"><a href="#contact" style="text-decoration: none; color: inherit;">Contact Me</a></button>
-      </div>
-    </div>
-    <div class="hero-image">
-      <img src="img/profile.png" alt="Web Designer">
-    </div>
-  </section>
+  <div id="hero-section"></div>
 
-  <!-- Social Media Section -->
   <div id="contact" class="social-media-section">
     <h1>My Social Media</h1>
     <div class="icons">
@@ -49,5 +31,63 @@
       <a href="https://www.linkedin.com/in/davy-putra-ananda/" class="icon linkedin"><i class="fab fa-linkedin"></i></a>
     </div>
   </div>
+
+  <script>
+    function renderHeroSection() {
+      const isMobile = window.innerWidth <= 768; 
+      const heroSection = document.getElementById('hero-section');
+      
+      if (isMobile) {
+        heroSection.innerHTML = `
+          <section class="hero">
+            <div class="hero-container">
+              <!-- Bagian gambar -->
+              <div class="hero-image">
+                <img src="img/profile.png" alt="Web Designer">
+              </div>
+              <!-- Bagian teks -->
+              <div class="hero-text">
+                <h1>Hello, I'm Davy!</h1>
+                <h2>About Me</h2>
+                <p>My name is Davy Putra Ananda, an Information Systems student at UPNVJ, Faculty of Computer Science. 
+                I am passionate about Mobile Development, Web Development, Data Engineering, Data Analysis, and Data Science, 
+                with a solid foundation built through coursework and hands-on projects. A communicative and resilient person, 
+                I excel at collaborating with teams and continuously expand my knowledge. I am eager to apply my expertise in 
+                creating innovative solutions, contributing to the field, and achieving shared success in future career opportunities.</p>
+                <div class="buttons">
+                  <button class="btn primary"><a href="project.html" style="text-decoration: none; color: inherit;">View My Portfolio</a></button>
+                  <button class="btn secondary"><a href="#contact" style="text-decoration: none; color: inherit;">Contact Me</a></button>
+                </div>
+              </div>
+            </div>
+          </section>
+        `;
+      } else {
+        heroSection.innerHTML = `
+          <section class="hero">
+            <div class="content">
+              <h1>Hello, I'm Davy!</h1>
+              <h2>About Me</h2>
+              <p>My name is Davy Putra Ananda, an Information Systems student at UPNVJ, Faculty of Computer Science. 
+                I am passionate about Mobile Development, Web Development, Data Engineering, Data Analysis, and Data Science, 
+                with a solid foundation built through coursework and hands-on projects. A communicative and resilient person, 
+                I excel at collaborating with teams and continuously expand my knowledge. I am eager to apply my expertise in 
+                creating innovative solutions, contributing to the field, and achieving shared success in future career opportunities.</p>
+              <div class="buttons">
+                <button class="btn primary"><a href="project.html" style="text-decoration: none; color: inherit;">View My Portofolio</a></button>
+                <button class="btn secondary"><a href="#contact" style="text-decoration: none; color: inherit;">Contact Me</a></button>
+              </div>
+            </div>
+            <div class="hero-image">
+              <img src="img/profile.png" alt="Web Designer">
+            </div>
+          </section>
+        `;
+      }
+    }
+
+    renderHeroSection();
+    window.addEventListener('resize', renderHeroSection);
+  </script>
 </body>
 </html>
