@@ -176,6 +176,83 @@ body, html {
     border-color: #58a6ff;
 }
 
+.offer-section {
+    text-align: center;
+    padding: 80px 20px;
+    background: linear-gradient(45deg, #000, #333); /* Menyesuaikan dengan latar belakang utama */
+    color: #fff; /* Menjaga konsistensi warna teks */
+}
+
+.offer-title {
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+    color: #f72885; /* Warna yang sesuai dengan tema */
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5); /* Menambah efek mewah */
+}
+
+.offer-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.offer-item {
+    background: rgba(255, 255, 255, 0.1); /* Transparansi dengan latar belakang gelap */
+    padding: 30px;
+    border-radius: 10px;
+    width: 300px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Shadow tambahan untuk efek mewah */
+}
+
+.offer-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.offer-item i {
+    font-size: 3rem;
+    color: #f72885; /* Menyesuaikan dengan tema */
+    margin-bottom: 15px;
+}
+
+.offer-item h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.offer-item p {
+    font-size: 1rem;
+    color: #ddd; /* Warna teks lebih lembut untuk kontras */
+}
+.tech-section {
+    margin-top: 60px;
+    text-align: center;
+}
+.tech-section h2 {
+    font-size: 2rem;
+    color: #f72885;
+    margin-bottom: 20px;
+}
+.tech-icons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+.tech-icons img {
+    width: 60px;
+    height: 60px;
+    transition: transform 0.3s ease;
+}
+.tech-icons img:hover {
+    transform: scale(1.2);
+}
+
 /* Icon Styles */
 .instagram:hover {
     color: #fdf497;
@@ -199,109 +276,244 @@ body, html {
 
 /* Media Queries for Mobile Responsiveness */
 @media (max-width: 768px) {
-    .hero {
-        display: flex;
-        flex-direction: column;  
-        align-items: center;     
-        justify-content: center;
-        padding: 50px 30px;
-    }
+.hero {
+    display: flex;
+    flex-direction: column;  
+    align-items: center;     
+    justify-content: center;
+}
 
-    .hero-text {
-        width: 90%;
-        text-align: center;
-    }
+.hero-text {
+    width: 90%;
+    text-align: center;
+}
 
+.hero-text h1 {
+    font-size: 28px; 
+    margin-bottom: 15px;
+    text-align: center; 
+    margin-left: 30px;
+}
+
+.hero-text h2 {
+    font-size: 24px; 
+    margin-bottom: 15px;
+    text-align: center;
+    margin-left: 30px;
+}
+
+.hero-text p {
+    font-size: 14px;
+    margin-bottom: 20px;
+    text-align: justify;
+    margin-left: 30px;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; 
+    margin-bottom: 20px;
+    margin-left: 30px;
+}
+
+.btn {
+    font-size: 14px; 
+    padding: 8px 12px;
+    margin-top: 15px; 
+    margin-bottom: -15px;
+}
+
+.hero-image {
+    width: 100%;             
+    margin-bottom: 20px; 
+    margin-top: 100px;   
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+}
+
+.hero-image img {
+    width: 90%;       
+    max-width: 250px; 
+    height: auto;
+    border-radius: 20%; 
+}
+
+.header {
+    flex-wrap: nowrap;
+    padding: 15px 20px;
+}
+
+.logo {
+    font-size: 18px;
+    flex-grow: 1;
+    text-align: left;
+    margin-right: 10px;
+}
+
+.nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 0;
+}
+
+.nav li {
+    margin: 0;
+}
+
+.nav a {
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+}
+
+.offer-container {
+    flex-direction: column;
+    align-items: center;
+}
+
+.social-media-section h1 {
+    font-size: 1.5rem;
+    margin-top: 80px;
+}
+
+.icons {
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.icon {
+    font-size: 2rem;
+    width: 50px;
+    height: 50px;
+}
+}
+
+@media (max-width: 480px) {
     .hero-text h1 {
-        font-size: 28px; 
-        margin-bottom: 15px;
-        text-align: center; 
+        font-size: 24px;
+        margin-bottom: 10px;
     }
 
     .hero-text h2 {
-        font-size: 24px; 
-        margin-bottom: 15px;
-        text-align: center;
+        font-size: 20px;
+        margin-bottom: 10px;
     }
 
     .hero-text p {
-        font-size: 14px;
-        margin-bottom: 20px;
+        font-size: 12px;
+        margin-bottom: 15px;
         text-align: justify;
     }
 
     .buttons {
         display: flex;
         flex-direction: column;
-        gap: 8px; 
+        gap: 6px;
     }
 
     .btn {
-        font-size: 14px; 
-        padding: 8px 12px;
-        margin-top: 15px; 
-        margin-bottom: -15px;
-    }
-
-    .hero-image {
-        width: 100%;             
-        margin-bottom: 20px; 
-        margin-top: 100px;   
-        display: flex;
-        justify-content: center; 
-        align-items: center;
+        font-size: 12px;
+        padding: 6px 10px;
     }
 
     .hero-image img {
-        width: 90%;       
-        max-width: 250px; 
-        height: auto;
-        border-radius: 20%; 
+        width: 80%;
+        max-width: 200px;
     }
 
+    .nav a {
+        font-size: 12px;
+    }
+}
+@media (max-width: 1024px) {
     .header {
-        flex-wrap: nowrap;
-        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        padding: 15px;
     }
 
+    .hero {
+        margin-bottom: 100px;
+    }
+    
     .logo {
-        font-size: 18px;
-        flex-grow: 1;
+        font-size: 20px;
         text-align: left;
-        margin-right: 10px;
     }
 
     .nav {
         display: flex;
-        flex-direction: row;
-        justify-content: flex-end;
-        gap: 10px;
-        padding: 0;
-    }
-
-    .nav li {
-        margin: 0;
+        flex-direction: row; /* Ensure horizontal layout */
+        gap: 15px; /* Space between nav items */
     }
 
     .nav a {
         font-size: 14px;
-        margin: 0;
-        padding: 0;
+        color: #fff;
+        text-decoration: none;
     }
 
-    .social-media-section h1 {
-        font-size: 1.5rem;
-        margin-top: 80px;
-    }
-    .icons {
-        flex-wrap: wrap;
-        gap: 10px;
-        justify-content: center;
-    }
-    .icon {
-        font-size: 2rem;
-        width: 50px;
-        height: 50px;
+    .nav a:hover {
+        color: #f0f0f0; /* Optional hover effect */
     }
 }
+
+/* Media Queries for 540px (Smaller mobile screens) */
+@media (max-width: 540px) {
+    .header {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+    }
+    .hero-image {
+        width: 100%;             
+        margin-bottom: 20px; 
+        margin-top: 200px;   
+        display: flex;
+        justify-content: center; 
+        align-items: center;
+    }
+    
+    .hero-image img {
+        width: 90%;       
+        max-width: 200px; 
+        height: auto;
+        border-radius: 20%; 
+    }
+
+    .logo {
+        font-size: 18px;
+        text-align: left;
+    }
+
+    .nav {
+        display: flex;
+        flex-direction: row; /* Ensure horizontal layout */
+        gap: 10px; /* Reduce space between nav items */
+    }
+
+    .nav a {
+        font-size: 12px;
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .nav a:hover {
+        color: #f0f0f0; /* Optional hover effect */
+    }
+
+    .buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 8px; 
+        margin-bottom: 200px;
+        margin-left: 30px;
+    }
+}
+
 
