@@ -3,666 +3,576 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Davy Putra Ananda — Portfolio</title>
+  <title>Davtranda — Portfolio</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Syne', 'sans-serif'],
+            body: ['DM Sans', 'sans-serif'],
+          },
+          colors: {
+            ink: '#0d0d0d',
+            cream: '#f5f0e8',
+            accent: '#e8572a',
+            muted: '#9b8f82',
+            soft: '#f0ebe1',
+          },
+          animation: {
+            'fade-up': 'fadeUp 0.7s ease forwards',
+            'fade-in': 'fadeIn 0.5s ease forwards',
+            'slide-left': 'slideLeft 0.7s ease forwards',
+          },
+          keyframes: {
+            fadeUp: {
+              '0%': { opacity: '0', transform: 'translateY(30px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' },
+            },
+            slideLeft: {
+              '0%': { opacity: '0', transform: 'translateX(40px)' },
+              '100%': { opacity: '1', transform: 'translateX(0)' },
+            },
+          }
+        }
+      }
+    }
+  </script>
 
   <style>
-    :root {
-      --pink: #ff2d6b;
-      --cream: #f5f0e8;
-      --dark: #0a0a0a;
-      --mid: #141414;
-    }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
       font-family: 'DM Sans', sans-serif;
-      background: var(--dark);
-      color: var(--cream);
+      background-color: #f5f0e8;
+      color: #0d0d0d;
       overflow-x: hidden;
-      cursor: none;
     }
 
-    /* NOISE */
-    body::after {
+    /* Grain texture overlay */
+    body::before {
       content: '';
-      position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
-      pointer-events: none; z-index: 9990; opacity: 0.6;
-    }
-
-    /* CURSOR */
-    #cursor {
-      width: 10px; height: 10px;
-      background: var(--pink); border-radius: 50%;
-      position: fixed; top: 0; left: 0;
-      pointer-events: none; z-index: 9999;
-      transform: translate(-50%,-50%);
-      transition: width .25s, height .25s;
-    }
-    #cursor-ring {
-      width: 38px; height: 38px;
-      border: 1px solid rgba(255,45,107,.45);
-      border-radius: 50%;
-      position: fixed; top: 0; left: 0;
-      pointer-events: none; z-index: 9998;
-      transform: translate(-50%,-50%);
-      transition: all .15s ease-out;
-    }
-
-    /* NAV */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 500;
-      padding: 28px 48px;
-      display: flex; align-items: center; justify-content: space-between;
-      transition: padding .4s;
-    }
-    nav::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: linear-gradient(to bottom, rgba(10,10,10,.96) 0%, transparent 100%);
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
       pointer-events: none;
+      z-index: 9999;
+      opacity: 0.4;
     }
-    .nav-logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 22px; letter-spacing: 5px;
-      color: var(--cream); text-decoration: none;
-      position: relative; z-index: 1;
-    }
-    .nav-logo span { color: var(--pink); }
-    .nav-links { list-style: none; display: flex; gap: 40px; position: relative; z-index: 1; }
-    .nav-links a {
-      font-size: 11px; font-weight: 500; letter-spacing: 2.5px;
-      text-transform: uppercase; color: rgba(245,240,232,.45);
-      text-decoration: none; transition: color .3s;
-    }
-    .nav-links a:hover { color: var(--cream); }
-    .ham-btn {
-      display: none; flex-direction: column; gap: 5px;
-      background: none; border: none; cursor: none; z-index: 1; padding: 4px;
-    }
-    .ham-btn span { display: block; width: 26px; height: 1.5px; background: var(--cream); transition: all .3s; }
-    .ham-btn.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
-    .ham-btn.open span:nth-child(2) { opacity: 0; }
-    .ham-btn.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
 
-    /* MOBILE MENU */
-    #mob-menu {
-      display: none; position: fixed; inset: 0; z-index: 400;
-      background: var(--dark);
-      flex-direction: column; align-items: center; justify-content: center; gap: 36px;
+    /* Navbar */
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      background: rgba(245, 240, 232, 0.85);
+      border-bottom: 1px solid rgba(13,13,13,0.08);
+      transition: box-shadow 0.3s;
     }
-    #mob-menu.open { display: flex; }
-    #mob-menu a {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 60px; letter-spacing: 4px;
-      color: var(--cream); text-decoration: none; transition: color .3s;
+    .navbar.scrolled {
+      box-shadow: 0 2px 20px rgba(13,13,13,0.08);
     }
-    #mob-menu a:hover { color: var(--pink); }
 
-    /* HERO – split layout */
-    #hero {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+    /* Mobile menu */
+    #mobile-menu {
+      transition: max-height 0.4s ease, opacity 0.3s ease;
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+    }
+    #mobile-menu.open {
+      max-height: 300px;
+      opacity: 1;
+    }
+
+    /* Hero */
+    .hero-section {
       min-height: 100vh;
-      position: relative; overflow: hidden;
+      padding-top: 80px;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
     }
-    .hero-left {
-      background: var(--dark);
-      padding: 160px 0 100px 48px;
-      display: flex; flex-direction: column; justify-content: flex-end;
-      position: relative; z-index: 2;
+    .hero-section::after {
+      content: 'DAVY';
+      position: absolute;
+      right: -2rem;
+      bottom: -2rem;
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(8rem, 20vw, 22rem);
+      font-weight: 800;
+      color: rgba(13,13,13,0.04);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+      letter-spacing: -0.05em;
     }
-    .hero-eyebrow {
-      font-size: 11px; font-weight: 500; letter-spacing: 4px;
-      text-transform: uppercase; color: var(--pink);
-      margin-bottom: 20px;
-      opacity: 0; animation: fadeUp .8s .2s forwards;
-    }
-    .hero-name {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(68px, 8.5vw, 132px);
-      line-height: .9; color: var(--cream);
-      opacity: 0; animation: fadeUp .8s .35s forwards;
-    }
-    .hero-name em {
-      font-family: 'DM Serif Display', serif;
-      font-style: italic; color: var(--pink);
-    }
-    .hero-tagline {
-      font-size: 13px; font-weight: 300; line-height: 1.9;
-      color: rgba(245,240,232,.4);
-      max-width: 340px; margin-top: 32px;
-      opacity: 0; animation: fadeUp .8s .5s forwards;
-    }
-    .hero-cta-row {
-      display: flex; align-items: center; gap: 24px;
-      margin-top: 48px;
-      opacity: 0; animation: fadeUp .8s .65s forwards;
-    }
-    .btn-fill {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 11px; font-weight: 600; letter-spacing: 2.5px;
-      text-transform: uppercase; color: var(--dark);
-      background: var(--pink); border: none;
-      padding: 16px 36px;
-      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 100%, 12px 100%);
-      text-decoration: none; display: inline-block;
-      transition: background .3s;
-    }
-    .btn-fill:hover { background: var(--cream); }
-    .btn-ghost {
-      font-size: 11px; font-weight: 500; letter-spacing: 2.5px;
-      text-transform: uppercase; color: rgba(245,240,232,.4);
-      text-decoration: none; display: flex; align-items: center; gap: 8px;
-      transition: color .3s;
-    }
-    .btn-ghost::after { content: '→'; transition: transform .3s; }
-    .btn-ghost:hover { color: var(--cream); }
-    .btn-ghost:hover::after { transform: translateX(5px); }
 
-    /* Hero right – image */
-    .hero-right {
-      position: relative; background: #111; overflow: hidden;
+    /* Profile image */
+    .profile-wrap {
+      position: relative;
+      display: inline-block;
     }
-    .hero-img-wrap {
-      position: absolute; inset: 0;
-      opacity: 0; animation: fadeIn 1.2s .3s forwards;
-    }
-    .hero-img-wrap img {
-      width: 100%; height: 100%;
-      object-fit: cover; object-position: center top;
-      filter: grayscale(15%) contrast(1.05);
-    }
-    .hero-img-wrap::after {
+    .profile-wrap::before {
       content: '';
-      position: absolute; inset: 0;
-      background: linear-gradient(160deg, rgba(255,45,107,.12) 0%, transparent 55%);
+      position: absolute;
+      inset: -10px;
+      border: 2px solid #e8572a;
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      animation: spinBorder 8s linear infinite;
+      opacity: 0.5;
+    }
+    @keyframes spinBorder {
+      to { transform: rotate(360deg); }
+    }
+    .profile-wrap img {
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      display: block;
     }
 
-    /* Vertical divider */
-    .hero-divider {
-      position: absolute; top: 0; left: 50%;
-      width: 1px; height: 100%;
-      background: linear-gradient(to bottom, transparent, rgba(255,45,107,.4) 30%, rgba(255,45,107,.4) 70%, transparent);
-      z-index: 3; opacity: 0; animation: fadeIn 1s .8s forwards;
+    /* Divider line */
+    .divider-line {
+      height: 1px;
+      background: linear-gradient(to right, transparent, #0d0d0d30, transparent);
     }
 
-    /* Stats overlay */
-    .hero-stats {
-      position: absolute; bottom: 64px; right: 40px;
-      display: flex; flex-direction: column; gap: 18px; z-index: 4;
-      opacity: 0; animation: fadeUp .8s .9s forwards;
+    /* Service card */
+    .service-card {
+      background: #fff;
+      border: 1px solid rgba(13,13,13,0.08);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s;
+      position: relative;
+      overflow: hidden;
     }
-    .stat-item { text-align: right; }
-    .stat-num {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 52px; line-height: 1; color: var(--cream);
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 4px;
+      height: 100%;
+      background: #e8572a;
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform 0.3s ease;
     }
-    .stat-divider { width: 36px; height: 1px; background: var(--pink); margin-left: auto; margin-top: 4px; }
-    .stat-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: rgba(245,240,232,.3); }
-
-    /* Ticker */
-    .hero-ticker {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      height: 48px; background: var(--pink);
-      overflow: hidden; z-index: 10; display: flex; align-items: center;
+    .service-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(13,13,13,0.12);
+      border-color: transparent;
     }
-    .ticker-track {
-      display: flex; align-items: center;
-      animation: ticker 22s linear infinite;
-      white-space: nowrap;
+    .service-card:hover::before {
+      transform: scaleY(1);
     }
-    .ticker-item {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 18px; letter-spacing: 3px;
-      color: var(--dark); padding: 0 28px;
-      display: flex; align-items: center; gap: 20px;
-    }
-    .tdot { width: 5px; height: 5px; background: var(--dark); border-radius: 50%; flex-shrink: 0; }
-
-    /* SERVICES */
-    #services { padding: 120px 48px 0; }
-    .services-header {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 40px; margin-bottom: 64px; align-items: end;
-    }
-    .services-big {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(56px, 7vw, 108px); line-height: .9; color: var(--cream);
-    }
-    .services-big em { font-family: 'DM Serif Display', serif; font-style: italic; color: var(--pink); }
-    .services-sub {
-      font-size: 13px; font-weight: 300; line-height: 1.9;
-      color: rgba(245,240,232,.38); max-width: 340px; align-self: end;
-    }
-
-    /* Bento */
-    .bento { display: grid; grid-template-columns: 2fr 1fr 1fr; grid-template-rows: auto auto; gap: 2px; }
-    .bcard {
-      background: var(--mid); padding: 48px 40px;
-      position: relative; overflow: hidden;
-      border: 1px solid rgba(245,240,232,.04);
-      transition: background .4s;
-    }
-    .bcard:hover { background: #1c1c1c; }
-    .bcard.span2 { grid-row: span 2; }
-    .bcard.pk { background: var(--pink); }
-    .bcard.pk:hover { background: #ff4478; }
-
-    .cnum {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 12px; letter-spacing: 3px;
-      color: rgba(245,240,232,.18); display: block; margin-bottom: 36px;
-    }
-    .pk .cnum { color: rgba(10,10,10,.35); }
-    .cico { font-size: 28px; color: var(--pink); margin-bottom: 20px; }
-    .pk .cico { color: var(--dark); }
-    .ctitle {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 36px; letter-spacing: 2px; line-height: 1;
-      color: var(--cream); margin-bottom: 14px;
-    }
-    .pk .ctitle { color: var(--dark); }
-    .cdesc {
-      font-size: 13px; font-weight: 300; line-height: 1.8;
-      color: rgba(245,240,232,.4); max-width: 280px;
-    }
-    .pk .cdesc { color: rgba(10,10,10,.55); }
-    .ctags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
-    .ctag {
-      font-size: 10px; font-weight: 500; letter-spacing: 2px;
-      text-transform: uppercase; padding: 5px 12px;
-      border: 1px solid rgba(245,240,232,.1);
-      color: rgba(245,240,232,.35);
-    }
-    .pk .ctag { border-color: rgba(10,10,10,.2); color: rgba(10,10,10,.5); }
-    .carrow {
-      position: absolute; bottom: 36px; right: 36px;
-      font-size: 20px; color: rgba(245,240,232,.1);
-      transition: color .3s, transform .3s;
-    }
-    .bcard:hover .carrow { color: var(--pink); transform: translate(4px,-4px); }
-    .pk .carrow { color: rgba(10,10,10,.18); }
-    .pk:hover .carrow { color: var(--dark); transform: translate(4px,-4px); }
-
-    /* TECH */
-    #stack { padding: 80px 48px 120px; }
-    .stack-hdr { display: flex; align-items: center; gap: 24px; margin-bottom: 40px; }
-    .stack-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 48px; letter-spacing: 3px; color: var(--cream); white-space: nowrap;
-    }
-    .sline { flex: 1; height: 1px; background: rgba(245,240,232,.07); }
-    .tech-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(88px, 1fr)); gap: 2px;
-    }
-    .tcell {
-      background: var(--mid);
-      border: 1px solid rgba(245,240,232,.04);
-      padding: 22px 14px;
-      display: flex; flex-direction: column; align-items: center; gap: 9px;
-      transition: background .3s, border-color .3s;
-      position: relative; overflow: hidden;
-    }
-    .tcell::before {
-      content: ''; position: absolute; bottom: 0; left: 0; right: 0;
-      height: 2px; background: var(--pink);
-      transform: scaleX(0); transform-origin: left; transition: transform .3s;
-    }
-    .tcell:hover { background: #1a1a1a; border-color: rgba(255,45,107,.18); }
-    .tcell:hover::before { transform: scaleX(1); }
-    .tcell img { width: 34px; height: 34px; object-fit: contain; }
-    .tcell span { font-size: 10px; letter-spacing: 1px; color: rgba(245,240,232,.28); text-align: center; transition: color .3s; }
-    .tcell:hover span { color: var(--cream); }
-
-    /* CONTACT */
-    #contact { position: relative; overflow: hidden; }
-    .contact-wrap { display: grid; grid-template-columns: 1fr 1fr; min-height: 70vh; }
-    .cleft {
-      background: var(--pink); padding: 80px 48px;
-      display: flex; flex-direction: column; justify-content: space-between;
-    }
-    .cbig {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(60px, 7.5vw, 118px); line-height: .9; color: var(--dark);
-    }
-    .cbig em { font-family: 'DM Serif Display', serif; font-style: italic; }
-    .csub { font-size: 13px; font-weight: 300; line-height: 1.9; color: rgba(10,10,10,.5); max-width: 320px; }
-    .cright {
-      background: var(--mid); padding: 80px 48px;
-      display: flex; flex-direction: column; justify-content: space-between;
-    }
-    .clabel {
-      font-size: 10px; font-weight: 500; letter-spacing: 4px;
-      text-transform: uppercase; color: rgba(245,240,232,.22); margin-bottom: 36px;
-    }
-    .slist { display: flex; flex-direction: column; flex: 1; }
-    .srow {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 20px 0;
-      border-bottom: 1px solid rgba(245,240,232,.05);
-      text-decoration: none; transition: padding-left .3s;
-    }
-    .srow:first-child { border-top: 1px solid rgba(245,240,232,.05); }
-    .srow:hover { padding-left: 14px; }
-    .sname {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 27px; letter-spacing: 2px; color: var(--cream);
-      display: flex; align-items: center; gap: 14px; transition: color .3s;
-    }
-    .srow:hover .sname { color: var(--pink); }
-    .sico {
-      width: 30px; height: 30px; border-radius: 50%;
-      background: rgba(245,240,232,.05);
+    .service-icon {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      background: #f5f0e8;
       display: flex; align-items: center; justify-content: center;
-      font-size: 12px; color: rgba(245,240,232,.35);
+      font-size: 1.4rem;
+      color: #e8572a;
+      margin-bottom: 1.2rem;
+      transition: background 0.3s;
     }
-    .sarrow {
-      font-size: 16px; color: rgba(245,240,232,.12);
-      transition: color .3s, transform .3s;
-    }
-    .srow:hover .sarrow { color: var(--pink); transform: translate(4px,-4px); }
-
-    /* FOOTER */
-    footer {
-      background: var(--dark);
-      border-top: 1px solid rgba(245,240,232,.05);
-      padding: 28px 48px;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .flogo { font-family: 'Bebas Neue', sans-serif; font-size: 16px; letter-spacing: 5px; color: rgba(245,240,232,.25); }
-    .flogo span { color: var(--pink); }
-    .fcopy { font-size: 11px; letter-spacing: 1px; color: rgba(245,240,232,.15); }
-    .ftop {
-      font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
-      color: rgba(245,240,232,.15); text-decoration: none; transition: color .3s;
-    }
-    .ftop:hover { color: var(--pink); }
-
-    /* REVEAL */
-    .reveal { opacity: 0; transform: translateY(30px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); }
-    .reveal.in { opacity: 1; transform: none; }
-
-    /* ANIMS */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(28px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes ticker {
-      0%   { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
+    .service-card:hover .service-icon {
+      background: #e8572a;
+      color: #fff;
     }
 
-    /* RESPONSIVE */
-    @media (max-width: 900px) {
-      nav { padding: 18px 24px; }
-      .nav-links { display: none; }
-      .ham-btn { display: flex; }
-
-      #hero { grid-template-columns: 1fr; }
-      .hero-left { padding: 120px 24px 60px; order: 2; }
-      .hero-right { order: 1; height: 55vw; min-height: 260px; }
-      .hero-divider { display: none; }
-      .hero-stats { bottom: 24px; right: 20px; }
-      .stat-num { font-size: 34px; }
-
-      .services-header { grid-template-columns: 1fr; gap: 18px; }
-      .bento { grid-template-columns: 1fr; }
-      .bcard.span2 { grid-row: span 1; }
-      #services { padding: 80px 24px 0; }
-      #stack { padding: 60px 24px 80px; }
-
-      .contact-wrap { grid-template-columns: 1fr; }
-      .cleft { padding: 60px 24px; }
-      .cright { padding: 60px 24px; }
-      footer { flex-direction: column; gap: 10px; text-align: center; padding: 20px 24px; }
+    /* Tech icons */
+    .tech-icon-wrap {
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      transition: transform 0.25s;
     }
-    @media (max-width: 480px) {
-      .hero-name { font-size: 58px; }
-      .services-big { font-size: 52px; }
-      .tech-grid { grid-template-columns: repeat(3, 1fr); }
+    .tech-icon-wrap:hover { transform: translateY(-5px); }
+    .tech-icon-wrap img {
+      width: 48px; height: 48px; object-fit: contain;
+      filter: grayscale(0.2);
+      transition: filter 0.25s;
+    }
+    .tech-icon-wrap:hover img { filter: grayscale(0); }
+    .tech-label {
+      font-size: 0.65rem;
+      color: #9b8f82;
+      text-align: center;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    /* Social icons */
+    .social-icon {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      transition: transform 0.25s, background 0.25s, color 0.25s;
+      background: rgba(13,13,13,0.06);
+      color: #0d0d0d;
+      text-decoration: none;
+    }
+    .social-icon:hover { transform: scale(1.15); }
+    .social-icon.instagram:hover { background: #E1306C; color: #fff; }
+    .social-icon.line:hover     { background: #00C300; color: #fff; }
+    .social-icon.whatsapp:hover { background: #25D366; color: #fff; }
+    .social-icon.discord:hover  { background: #5865F2; color: #fff; }
+    .social-icon.linkedin:hover { background: #0A66C2; color: #fff; }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Button */
+    .btn-primary {
+      display: inline-block;
+      padding: 0.75rem 1.75rem;
+      background: #e8572a;
+      color: #fff;
+      border-radius: 999px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.03em;
+      text-decoration: none;
+      transition: background 0.25s, transform 0.2s, box-shadow 0.25s;
+      border: 2px solid transparent;
+    }
+    .btn-primary:hover {
+      background: #c94420;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(232,87,42,0.3);
+    }
+    .btn-secondary {
+      display: inline-block;
+      padding: 0.75rem 1.75rem;
+      background: transparent;
+      color: #0d0d0d;
+      border-radius: 999px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.03em;
+      text-decoration: none;
+      border: 2px solid #0d0d0d;
+      transition: background 0.25s, color 0.25s, transform 0.2s;
+    }
+    .btn-secondary:hover {
+      background: #0d0d0d;
+      color: #f5f0e8;
+      transform: translateY(-2px);
+    }
+
+    /* Hamburger */
+    .hamburger span {
+      display: block;
+      width: 22px; height: 2px;
+      background: #0d0d0d;
+      border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+    /* Number badge */
+    .num-badge {
+      font-family: 'Syne', sans-serif;
+      font-size: 4rem;
+      font-weight: 800;
+      color: rgba(13,13,13,0.07);
+      line-height: 1;
+      position: absolute;
+      top: -10px; right: -5px;
+      pointer-events: none;
     }
   </style>
 </head>
 <body>
 
-<div id="cursor"></div>
-<div id="cursor-ring"></div>
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="max-w-6xl mx-auto px-5 py-4 flex items-center justify-between">
+      <a href="index.html" class="font-display font-bold text-xl text-ink tracking-tight">
+        Dav<span class="text-accent">tranda</span>
+      </a>
 
-<!-- NAV -->
-<nav id="navbar">
-  <a href="#" class="nav-logo">DAV<span>.</span></a>
-  <ul class="nav-links">
-    <li><a href="#hero">Home</a></li>
-    <li><a href="#services">Services</a></li>
-    <li><a href="project.html">Projects</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-  <button class="ham-btn" id="ham"><span></span><span></span><span></span></button>
-</nav>
+      <!-- Desktop Nav -->
+      <ul class="hidden md:flex items-center gap-8">
+        <li><a href="index.html" class="font-body text-sm font-medium text-ink hover:text-accent transition-colors">Home</a></li>
+        <li><a href="#offer" class="font-body text-sm font-medium text-ink hover:text-accent transition-colors">Services</a></li>
+        <li><a href="project.html" class="font-body text-sm font-medium text-ink hover:text-accent transition-colors">Projects</a></li>
+        <li><a href="#contact" class="btn-primary text-sm py-2 px-5">Contact</a></li>
+      </ul>
 
-<div id="mob-menu">
-  <a href="#hero" class="ml">Home</a>
-  <a href="#services" class="ml">Services</a>
-  <a href="project.html" class="ml">Projects</a>
-  <a href="#contact" class="ml">Contact</a>
-</div>
+      <!-- Hamburger -->
+      <button class="hamburger md:hidden flex flex-col gap-1.5 p-1 cursor-pointer" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
 
-<!-- HERO -->
-<section id="hero">
-  <div class="hero-divider"></div>
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="md:hidden bg-cream border-t border-ink/5">
+      <ul class="flex flex-col px-5 py-4 gap-4">
+        <li><a href="index.html" class="font-body text-sm font-medium text-ink hover:text-accent transition-colors block py-1">Home</a></li>
+        <li><a href="#offer" class="font-body text-sm font-medium text-ink hover:text-accent transition-colors block py-1" id="mobile-services">Services</a></li>
+        <li><a href="project.html" class="font-body text-sm font-medium text-ink hover:text-accent transition-colors block py-1">Projects</a></li>
+        <li><a href="#contact" class="font-body text-sm font-medium text-ink hover:text-accent transition-colors block py-1" id="mobile-contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
 
-  <div class="hero-left">
-    <div>
-      <p class="hero-eyebrow">— Available for work</p>
-      <h1 class="hero-name">Davy<br><em>Putra</em><br>Ananda</h1>
-      <p class="hero-tagline">Information Systems · UPNVJ<br>
-        Web &amp; Mobile Developer · Data Analyst<br>
-        UI/UX Designer · Data Engineer
-      </p>
-      <div class="hero-cta-row">
-        <a href="project.html" class="btn-fill">View Work</a>
-        <a href="#contact" class="btn-ghost">Get in touch</a>
+  <!-- HERO SECTION -->
+  <section class="hero-section px-5">
+    <div class="max-w-6xl mx-auto w-full">
+      <div class="flex flex-col-reverse md:flex-row items-center gap-12 md:gap-20">
+
+        <!-- Text -->
+        <div class="flex-1 text-center md:text-left">
+          <p class="font-display text-accent text-sm font-semibold tracking-widest uppercase mb-4 reveal">
+            — Hello there 👋
+          </p>
+          <h1 class="font-display font-extrabold text-5xl sm:text-6xl md:text-7xl text-ink leading-tight mb-4 reveal" style="transition-delay:0.1s">
+            I'm <span class="text-accent">Davy</span><br>Putra Ananda
+          </h1>
+          <p class="font-body text-muted text-base sm:text-lg max-w-lg mx-auto md:mx-0 mb-8 reveal" style="transition-delay:0.2s">
+            Information Systems student at UPNVJ passionate about Mobile & Web Development, Data Engineering, and UI/UX — building innovative digital solutions with clean code and meaningful design.
+          </p>
+          <div class="flex flex-wrap gap-3 justify-center md:justify-start reveal" style="transition-delay:0.3s">
+            <a href="project.html" class="btn-primary">View My Portfolio</a>
+            <a href="#contact" class="btn-secondary">Contact Me</a>
+          </div>
+
+          <!-- Stats -->
+          <div class="flex gap-8 justify-center md:justify-start mt-10 reveal" style="transition-delay:0.4s">
+            <div>
+              <p class="font-display font-bold text-3xl text-ink">4+</p>
+              <p class="text-muted text-xs mt-1">Skills Area</p>
+            </div>
+            <div class="w-px bg-ink/10"></div>
+            <div>
+              <p class="font-display font-bold text-3xl text-ink">10+</p>
+              <p class="text-muted text-xs mt-1">Technologies</p>
+            </div>
+            <div class="w-px bg-ink/10"></div>
+            <div>
+              <p class="font-display font-bold text-3xl text-ink">∞</p>
+              <p class="text-muted text-xs mt-1">Curiosity</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Image -->
+        <div class="flex-shrink-0 reveal" style="transition-delay:0.2s">
+          <div class="profile-wrap">
+            <img src="img/profile.png" alt="Davy Putra Ananda"
+              class="w-52 h-52 sm:w-64 sm:h-64 md:w-80 md:h-80 object-cover"
+              onerror="this.src='https://placehold.co/320x320/e8572a/fff?text=D&font=syne'">
+          </div>
+        </div>
+
       </div>
     </div>
-  </div>
+  </section>
 
-  <div class="hero-right">
-    <div class="hero-img-wrap">
-      <img src="img/profile.png" alt="Davy Putra Ananda">
-    </div>
-    <div class="hero-stats">
-      <div class="stat-item">
-        <div class="stat-num">10+</div>
-        <div class="stat-divider"></div>
-        <div class="stat-label">Projects</div>
+  <div class="divider-line max-w-6xl mx-auto my-4 px-5"></div>
+
+  <!-- SERVICES SECTION -->
+  <section id="offer" class="py-20 px-5">
+    <div class="max-w-6xl mx-auto">
+
+      <div class="mb-14 reveal">
+        <p class="font-display text-accent text-sm font-semibold tracking-widest uppercase mb-3">What I Offer</p>
+        <h2 class="font-display font-extrabold text-4xl sm:text-5xl text-ink leading-tight">
+          Services &<br>Expertise
+        </h2>
       </div>
-      <div class="stat-item">
-        <div class="stat-num">04</div>
-        <div class="stat-divider"></div>
-        <div class="stat-label">Skills</div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+
+        <div class="service-card reveal" style="transition-delay:0.0s">
+          <span class="num-badge">01</span>
+          <div class="service-icon"><i class="fas fa-chart-line"></i></div>
+          <h3 class="font-display font-bold text-lg text-ink mb-2">Data Analyst</h3>
+          <p class="font-body text-muted text-sm leading-relaxed">Analyze and interpret complex data to support informed decision-making using modern tools and programming languages.</p>
+        </div>
+
+        <div class="service-card reveal" style="transition-delay:0.1s">
+          <span class="num-badge">02</span>
+          <div class="service-icon"><i class="fas fa-object-group"></i></div>
+          <h3 class="font-display font-bold text-lg text-ink mb-2">UI/UX Designer</h3>
+          <p class="font-body text-muted text-sm leading-relaxed">Design intuitive interfaces that improve user experience through research, prototyping, and usability testing.</p>
+        </div>
+
+        <div class="service-card reveal" style="transition-delay:0.2s">
+          <span class="num-badge">03</span>
+          <div class="service-icon"><i class="fas fa-code"></i></div>
+          <h3 class="font-display font-bold text-lg text-ink mb-2">Web Developer</h3>
+          <p class="font-body text-muted text-sm leading-relaxed">Build responsive and dynamic websites using modern technologies for an optimal user experience.</p>
+        </div>
+
+        <div class="service-card reveal" style="transition-delay:0.3s">
+          <span class="num-badge">04</span>
+          <div class="service-icon"><i class="fas fa-mobile-alt"></i></div>
+          <h3 class="font-display font-bold text-lg text-ink mb-2">Mobile Developer</h3>
+          <p class="font-body text-muted text-sm leading-relaxed">Create smooth and user-friendly mobile applications with thoughtful UI/UX and clean architecture.</p>
+        </div>
+
       </div>
-    </div>
-  </div>
 
-  <div class="hero-ticker">
-    <div class="ticker-track">
-      <div class="ticker-item"><span class="tdot"></span>Web Developer</div>
-      <div class="ticker-item"><span class="tdot"></span>Mobile Developer</div>
-      <div class="ticker-item"><span class="tdot"></span>Data Analyst</div>
-      <div class="ticker-item"><span class="tdot"></span>UI/UX Designer</div>
-      <div class="ticker-item"><span class="tdot"></span>Data Engineer</div>
-      <div class="ticker-item"><span class="tdot"></span>Flutter Dev</div>
-      <div class="ticker-item"><span class="tdot"></span>Web Developer</div>
-      <div class="ticker-item"><span class="tdot"></span>Mobile Developer</div>
-      <div class="ticker-item"><span class="tdot"></span>Data Analyst</div>
-      <div class="ticker-item"><span class="tdot"></span>UI/UX Designer</div>
-      <div class="ticker-item"><span class="tdot"></span>Data Engineer</div>
-      <div class="ticker-item"><span class="tdot"></span>Flutter Dev</div>
-    </div>
-  </div>
-</section>
+      <!-- Tech Stack -->
+      <div class="mt-20 reveal">
+        <p class="font-display text-accent text-sm font-semibold tracking-widest uppercase mb-3">Tech Stack</p>
+        <h3 class="font-display font-bold text-2xl text-ink mb-10">Technologies & Frameworks</h3>
 
-<!-- SERVICES -->
-<section id="services">
-  <div class="services-header reveal">
-    <div class="services-big">What I<br>can<br><em>do.</em></div>
-    <p class="services-sub">Four disciplines. One goal — design and build meaningful digital experiences that solve real problems.</p>
-  </div>
+        <div class="flex flex-wrap gap-6 justify-start items-end">
 
-  <div class="bento">
-    <div class="bcard span2 reveal">
-      <span class="cnum">01</span>
-      <i class="fas fa-chart-line cico"></i>
-      <h3 class="ctitle">Data<br>Analyst</h3>
-      <p class="cdesc">Transform raw numbers into actionable insights using Python, SQL, Power BI, and Pentaho to drive smarter decisions.</p>
-      <div class="ctags">
-        <span class="ctag">Python</span>
-        <span class="ctag">SQL</span>
-        <span class="ctag">Power BI</span>
-        <span class="ctag">Pentaho</span>
+          <div class="tech-icon-wrap">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" alt="Figma">
+            <span class="tech-label">Figma</span>
+          </div>
+          <div class="tech-icon-wrap">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML">
+            <span class="tech-label">HTML5</span>
+          </div>
+          <div class="tech-icon-wrap">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS">
+            <span class="tech-label">CSS3</span>
+          </div>
+          <div class="tech-icon-wrap">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript">
+            <span class="tech-label">JavaScript</span>
+          </div>
+          <div class="tech-icon-wrap">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg" alt="Bootstrap">
+            <span class="tech-label">Bootstrap</span>
+          </div>
+          <div class="tech-icon-wrap">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dart/dart-original.svg" alt="Dart">
+            <span class="tech-label">Dart</span>
+          </div>
+          <div class="tech-icon-wrap">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg" alt="Flutter">
+            <span class="tech-label">Flutter</span>
+          </div>
+          <div class="tech-icon-wrap">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL">
+            <span class="tech-label">MySQL</span>
+          </div>
+          <div class="tech-icon-wrap">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python">
+            <span class="tech-label">Python</span>
+          </div>
+          <div class="tech-icon-wrap">
+            <img src="https://i.pinimg.com/originals/7a/f2/1e/7af21eaf89a449831a1e12d640b54fae.png" alt="Power BI" style="border-radius:8px;">
+            <span class="tech-label">Power BI</span>
+          </div>
+          <div class="tech-icon-wrap">
+            <img src="https://agailcombr.files.wordpress.com/2020/12/pdi.png" alt="Pentaho PDI" style="width:48px;height:48px;object-fit:contain;">
+            <span class="tech-label">Pentaho</span>
+          </div>
+
+        </div>
       </div>
-      <i class="fas fa-arrow-up-right carrow"></i>
-    </div>
 
-    <div class="bcard pk reveal" style="transition-delay:.1s">
-      <span class="cnum">02</span>
-      <i class="fas fa-object-group cico"></i>
-      <h3 class="ctitle">UI/UX<br>Design</h3>
-      <p class="cdesc">Research-led design with prototyping and usability testing.</p>
-      <div class="ctags"><span class="ctag">Figma</span></div>
-      <i class="fas fa-arrow-up-right carrow"></i>
     </div>
+  </section>
 
-    <div class="bcard reveal" style="transition-delay:.2s">
-      <span class="cnum">03</span>
-      <i class="fas fa-mobile-alt cico"></i>
-      <h3 class="ctitle">Mobile<br>Dev</h3>
-      <p class="cdesc">Cross-platform apps with Flutter &amp; Dart.</p>
-      <div class="ctags"><span class="ctag">Flutter</span><span class="ctag">Dart</span></div>
-      <i class="fas fa-arrow-up-right carrow"></i>
-    </div>
+  <div class="divider-line max-w-6xl mx-auto px-5"></div>
 
-    <div class="bcard reveal" style="transition-delay:.1s">
-      <span class="cnum">04</span>
-      <i class="fas fa-code cico"></i>
-      <h3 class="ctitle">Web<br>Dev</h3>
-      <p class="cdesc">Responsive, modern websites with clean code.</p>
-      <div class="ctags"><span class="ctag">HTML</span><span class="ctag">CSS</span><span class="ctag">JS</span></div>
-      <i class="fas fa-arrow-up-right carrow"></i>
-    </div>
+  <!-- CONTACT SECTION -->
+  <section id="contact" class="py-20 px-5">
+    <div class="max-w-6xl mx-auto text-center">
 
-    <div class="bcard reveal" style="transition-delay:.2s">
-      <span class="cnum">05</span>
-      <i class="fas fa-database cico"></i>
-      <h3 class="ctitle">Data<br>Eng</h3>
-      <p class="cdesc">Pipelines and ETL workflows for clean, reliable data.</p>
-      <div class="ctags"><span class="ctag">MySQL</span><span class="ctag">ETL</span></div>
-      <i class="fas fa-arrow-up-right carrow"></i>
-    </div>
-  </div>
-</section>
+      <div class="reveal mb-12">
+        <p class="font-display text-accent text-sm font-semibold tracking-widest uppercase mb-3">Get In Touch</p>
+        <h2 class="font-display font-extrabold text-4xl sm:text-5xl text-ink mb-4">
+          Let's Connect
+        </h2>
+        <p class="font-body text-muted text-base max-w-md mx-auto">
+          Have a project in mind or just want to chat? Feel free to reach out through any of my social channels.
+        </p>
+      </div>
 
-<!-- TECH STACK -->
-<section id="stack">
-  <div class="stack-hdr reveal">
-    <h2 class="stack-title">Tech Stack</h2>
-    <div class="sline"></div>
-  </div>
-  <div class="tech-grid reveal" style="transition-delay:.1s">
-    <div class="tcell"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" alt="Figma"><span>Figma</span></div>
-    <div class="tcell"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5"><span>HTML5</span></div>
-    <div class="tcell"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3"><span>CSS3</span></div>
-    <div class="tcell"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript"><span>JS</span></div>
-    <div class="tcell"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg" alt="Bootstrap"><span>Bootstrap</span></div>
-    <div class="tcell"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dart/dart-original.svg" alt="Dart"><span>Dart</span></div>
-    <div class="tcell"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg" alt="Flutter"><span>Flutter</span></div>
-    <div class="tcell"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL"><span>MySQL</span></div>
-    <div class="tcell"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python"><span>Python</span></div>
-    <div class="tcell"><img src="https://i.pinimg.com/originals/7a/f2/1e/7af21eaf89a449831a1e12d640b54fae.png" alt="Power BI"><span>Power BI</span></div>
-    <div class="tcell"><img src="https://agailcombr.files.wordpress.com/2020/12/pdi.png" alt="Pentaho"><span>Pentaho</span></div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section id="contact">
-  <div class="contact-wrap">
-    <div class="cleft reveal">
-      <h2 class="cbig">Let's<br><em>Talk.</em></h2>
-      <p class="csub">Open to projects, collabs, and opportunities. Don't be a stranger.</p>
-    </div>
-    <div class="cright reveal" style="transition-delay:.15s">
-      <p class="clabel">Find me on</p>
-      <div class="slist">
-        <a href="https://www.instagram.com/davtranda/" target="_blank" class="srow">
-          <div class="sname"><div class="sico"><i class="fab fa-instagram"></i></div>Instagram</div>
-          <i class="fas fa-arrow-up-right sarrow"></i>
+      <div class="flex flex-wrap gap-4 justify-center reveal" style="transition-delay:0.1s">
+        <a href="https://www.instagram.com/davtranda/" class="social-icon instagram" title="Instagram">
+          <i class="fab fa-instagram"></i>
         </a>
-        <a href="https://line.me/ti/p/GhmsLXLpbX" target="_blank" class="srow">
-          <div class="sname"><div class="sico"><i class="fab fa-line"></i></div>LINE</div>
-          <i class="fas fa-arrow-up-right sarrow"></i>
+        <a href="https://line.me/ti/p/GhmsLXLpbX" class="social-icon line" title="Line">
+          <i class="fab fa-line"></i>
         </a>
-        <a href="https://wa.me/6282208216287/" target="_blank" class="srow">
-          <div class="sname"><div class="sico"><i class="fab fa-whatsapp"></i></div>WhatsApp</div>
-          <i class="fas fa-arrow-up-right sarrow"></i>
+        <a href="https://wa.me/6282208216287/" class="social-icon whatsapp" title="WhatsApp">
+          <i class="fab fa-whatsapp"></i>
         </a>
-        <a href="discordapp.com/users/334629782463447040" target="_blank" class="srow">
-          <div class="sname"><div class="sico"><i class="fab fa-discord"></i></div>Discord</div>
-          <i class="fas fa-arrow-up-right sarrow"></i>
+        <a href="discordapp.com/users/334629782463447040" class="social-icon discord" title="Discord">
+          <i class="fab fa-discord"></i>
         </a>
-        <a href="https://www.linkedin.com/in/davy-putra-ananda/" target="_blank" class="srow">
-          <div class="sname"><div class="sico"><i class="fab fa-linkedin"></i></div>LinkedIn</div>
-          <i class="fas fa-arrow-up-right sarrow"></i>
+        <a href="https://www.linkedin.com/in/davy-putra-ananda/" class="social-icon linkedin" title="LinkedIn">
+          <i class="fab fa-linkedin"></i>
         </a>
       </div>
+
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- FOOTER -->
-<footer>
-  <div class="flogo">DAV<span>.</span></div>
-  <p class="fcopy">© 2024 Davy Putra Ananda</p>
-  <a href="#hero" class="ftop">Back to top ↑</a>
-</footer>
+  <!-- FOOTER -->
+  <footer class="py-6 px-5 border-t border-ink/8">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+      <span class="font-display font-bold text-sm text-ink">Dav<span class="text-accent">tranda</span></span>
+      <span class="font-body text-muted text-xs">© 2025 Davy Putra Ananda. All rights reserved.</span>
+    </div>
+  </footer>
 
-<script>
-  // Cursor
-  const cur = document.getElementById('cursor');
-  const ring = document.getElementById('cursor-ring');
-  let mx=0,my=0,rx=0,ry=0;
-  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
-  (function animC(){
-    cur.style.left=mx+'px';cur.style.top=my+'px';
-    rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;
-    ring.style.left=rx+'px';ring.style.top=ry+'px';
-    requestAnimationFrame(animC);
-  })();
+  <script>
+    // Scroll-based navbar shadow
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 20);
+    });
 
-  // Hamburger
-  const ham=document.getElementById('ham');
-  const mob=document.getElementById('mob-menu');
-  ham.addEventListener('click',()=>{ham.classList.toggle('open');mob.classList.toggle('open');});
-  document.querySelectorAll('.ml').forEach(l=>l.addEventListener('click',()=>{ham.classList.remove('open');mob.classList.remove('open');}));
+    // Hamburger toggle
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+    });
 
-  // Scroll reveal
-  const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');}),{threshold:0.07});
-  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+    // Close mobile menu on link click
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        mobileMenu.classList.remove('open');
+      });
+    });
 
-  // Nav shrink
-  const nb=document.getElementById('navbar');
-  window.addEventListener('scroll',()=>{
-    const big=window.innerWidth>900?'28px 48px':'18px 24px';
-    const sm=window.innerWidth>900?'14px 48px':'12px 24px';
-    nb.style.padding=window.scrollY>60?sm:big;
-  });
-</script>
+    // Scroll reveal
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    revealEls.forEach(el => observer.observe(el));
+  </script>
 </body>
 </html>
