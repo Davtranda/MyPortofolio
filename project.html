@@ -3,107 +3,494 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Projects</title>
-  <link rel="stylesheet" href="css/style-project.css">
+  <title>Projects — Davtranda</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Syne', 'sans-serif'],
+            body: ['DM Sans', 'sans-serif'],
+          },
+          colors: {
+            ink: '#0d0d0d',
+            cream: '#f5f0e8',
+            accent: '#e8572a',
+            muted: '#9b8f82',
+            soft: '#f0ebe1',
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: #f5f0e8;
+      color: #0d0d0d;
+      overflow-x: hidden;
+    }
+
+    /* Grain texture */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.4;
+    }
+
+    /* Navbar */
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      background: rgba(245, 240, 232, 0.85);
+      border-bottom: 1px solid rgba(13,13,13,0.08);
+      transition: box-shadow 0.3s;
+    }
+    .navbar.scrolled { box-shadow: 0 2px 20px rgba(13,13,13,0.08); }
+
+    /* Mobile menu */
+    #mobile-menu {
+      transition: max-height 0.4s ease, opacity 0.3s ease;
+      max-height: 0; opacity: 0; overflow: hidden;
+    }
+    #mobile-menu.open { max-height: 300px; opacity: 1; }
+
+    /* Hamburger */
+    .hamburger span {
+      display: block; width: 22px; height: 2px;
+      background: #0d0d0d; border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+    /* Hero banner */
+    .page-hero {
+      min-height: 46vh;
+      display: flex; align-items: flex-end;
+      padding-top: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero::after {
+      content: 'WORK';
+      position: absolute;
+      right: -1rem; top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(7rem, 18vw, 20rem);
+      font-weight: 800;
+      color: rgba(13,13,13,0.05);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+      letter-spacing: -0.05em;
+    }
+
+    /* Project card */
+    .project-card {
+      background: #fff;
+      border: 1px solid rgba(13,13,13,0.08);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      display: flex; flex-direction: column;
+    }
+    .project-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 24px 48px rgba(13,13,13,0.12);
+    }
+    .project-card-img {
+      width: 100%; aspect-ratio: 16/10;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+    .project-card:hover .project-card-img { transform: scale(1.04); }
+    .project-card-img-wrap { overflow: hidden; position: relative; }
+    .project-card-img-wrap::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 50%, rgba(13,13,13,0.08));
+      pointer-events: none;
+    }
+
+    /* Tag badge */
+    .tag {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      font-family: 'Syne', sans-serif;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .tag-design   { background: #ffeee8; color: #e8572a; }
+    .tag-web      { background: #e8f4ff; color: #2a7ae8; }
+    .tag-mobile   { background: #e8fff4; color: #2ae87a; color: #1a9a52; }
+    .tag-data     { background: #f8e8ff; color: #8b2ae8; }
+    .tag-dwh      { background: #fff8e8; color: #c8860a; }
+
+    /* Feature project (big) */
+    .feature-card {
+      background: #fff;
+      border: 1px solid rgba(13,13,13,0.08);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    @media (max-width: 768px) {
+      .feature-card { grid-template-columns: 1fr; }
+      .feature-card.reverse { direction: ltr; }
+    }
+    .feature-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 24px 48px rgba(13,13,13,0.12);
+    }
+    .feature-card.reverse { direction: rtl; }
+    .feature-card.reverse > * { direction: ltr; }
+    .feature-img {
+      width: 100%; height: 100%; min-height: 260px;
+      object-fit: cover; display: block;
+      transition: transform 0.5s ease;
+    }
+    .feature-card:hover .feature-img { transform: scale(1.03); }
+    .feature-img-wrap { overflow: hidden; }
+
+    /* Btn */
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.65rem 1.4rem;
+      background: #e8572a; color: #fff;
+      border-radius: 999px;
+      font-family: 'Syne', sans-serif; font-weight: 600;
+      font-size: 0.82rem; letter-spacing: 0.03em;
+      text-decoration: none;
+      transition: background 0.25s, transform 0.2s, box-shadow 0.25s;
+    }
+    .btn-primary:hover {
+      background: #c94420;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(232,87,42,0.3);
+    }
+
+    /* Social icons */
+    .social-icon {
+      width: 52px; height: 52px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      transition: transform 0.25s, background 0.25s, color 0.25s;
+      background: rgba(13,13,13,0.06);
+      color: #0d0d0d; text-decoration: none;
+    }
+    .social-icon:hover { transform: scale(1.15); }
+    .social-icon.instagram:hover { background: #E1306C; color: #fff; }
+    .social-icon.line:hover      { background: #00C300; color: #fff; }
+    .social-icon.whatsapp:hover  { background: #25D366; color: #fff; }
+    .social-icon.discord:hover   { background: #5865F2; color: #fff; }
+    .social-icon.linkedin:hover  { background: #0A66C2; color: #fff; }
+
+    /* Divider */
+    .divider-line {
+      height: 1px;
+      background: linear-gradient(to right, transparent, #0d0d0d30, transparent);
+    }
+
+    /* Reveal */
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* Placeholder gradient when img missing */
+    .img-placeholder {
+      background: linear-gradient(135deg, #f0ebe1 0%, #e8d8c8 100%);
+      display: flex; align-items: center; justify-content: center;
+      color: #9b8f82; font-family: 'Syne', sans-serif;
+      font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em;
+    }
+  </style>
 </head>
 <body>
-  <!-- Header -->
-  <header class="header">
-    <div class="logo">Davtranda</div>
-    <nav>
-      <ul class="nav">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="index.html#offer">Services</a></li>
-        <li><a href="Project.html">Projects</a></li>
-        <li><a href="#contact">Contact</a></li>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="max-w-6xl mx-auto px-5 py-4 flex items-center justify-between">
+      <a href="index.html" class="font-display font-bold text-xl text-ink tracking-tight">
+        Dav<span class="text-accent">tranda</span>
+      </a>
+      <ul class="hidden md:flex items-center gap-8">
+        <li><a href="index.html" class="font-body text-sm font-medium text-ink hover:text-accent transition-colors">Home</a></li>
+        <li><a href="index.html#offer" class="font-body text-sm font-medium text-ink hover:text-accent transition-colors">Services</a></li>
+        <li><a href="project.html" class="font-body text-sm font-medium text-accent transition-colors">Projects</a></li>
+        <li><a href="#contact" class="btn-primary text-sm py-2 px-5">Contact</a></li>
       </ul>
-    </nav>
-  </header>
+      <button class="hamburger md:hidden flex flex-col gap-1.5 p-1 cursor-pointer" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div id="mobile-menu" class="md:hidden bg-cream border-t border-ink/5">
+      <ul class="flex flex-col px-5 py-4 gap-4">
+        <li><a href="index.html" class="font-body text-sm font-medium text-ink hover:text-accent block py-1">Home</a></li>
+        <li><a href="index.html#offer" class="font-body text-sm font-medium text-ink hover:text-accent block py-1">Services</a></li>
+        <li><a href="project.html" class="font-body text-sm font-medium text-accent block py-1">Projects</a></li>
+        <li><a href="#contact" class="font-body text-sm font-medium text-ink hover:text-accent block py-1">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
 
-  <!-- Carousel -->
-  <div class="carousel">
-    <h1>My Portofolio</h1>
-    <p>A collection of projects reflecting my interests and expertise.</p>
-  </div>
-
-  <!-- Project Grid -->
-  <section class="project-grid">
-    <div class="project-card">
-        <div class="icon">
-          <img src="img/chemtwist.jpg">
-        </div>
-      <h3>Chemtwist</h3>
-      <p>Creating the Application Interface for the ChemTwist display with Figma.</p>
-      <a href="https://www.figma.com/design/uNl0IZwObj2KluGDWWfKX1/ChemTwist?node-id=0-1&p=f&t=hMUqVUl6cfrYy3xQ-0" class="btn">View details &raquo;</a>
-    </div>
-    <div class="project-card">
-      <div class="icon"><img src="img/ikea.png"></div>
-      <h3>IKEA</h3>
-      <p>Redesigning IKEA's Indonesia UI using the SUS framework to improve usability, ensuring a seamless and user-friendly experience.</p>
-      <a href="https://docs.google.com/document/d/1tdVAoIiM21z2B9D07xtgsAAX3zkCjmr9alhzN5eNsVo/edit?usp=sharing" class="btn">View details &raquo;</a>
-    </div>
-    <div class="project-card">
-      <div class="icon">
-        <img src="img/bisnispintar.png">
-      </div>
-      <h3>BisnisPintar</h3>
-      <p>Creating the Application Interface for the BisnisPintar display with Flutter.
-        </p>
-      <a href="https://drive.google.com/drive/folders/1x20bD6qmn1orG5D_4-Rp3e62S1lfQCvK?usp=sharing" class="btn">View details &raquo;</a>
-    </div>
-    <div class="project-card">
-      <div class="icon">
-        <img src="img/sentulgram.png">
-      </div>
-      <h3>Sentulgram</h3>
-      <p>Developed a social media website with user authentication, post management, and a responsive UI using HTML, Java Script, PHP, and CSS.
-        </p>
-      <a href="https://docs.google.com/document/d/1oFxRRr0fgvfuo4Q34xFQMnai4xk62U4BXF9xbrB2wDs/edit?tab=t.0" class="btn">View details &raquo;</a>
+  <!-- PAGE HERO -->
+  <section class="page-hero px-5">
+    <div class="max-w-6xl mx-auto w-full pb-14">
+      <p class="font-display text-accent text-sm font-semibold tracking-widest uppercase mb-4 reveal">— Selected Work</p>
+      <h1 class="font-display font-extrabold text-5xl sm:text-6xl md:text-7xl text-ink leading-tight reveal" style="transition-delay:0.1s">
+        My<br>Projects
+      </h1>
+      <p class="font-body text-muted text-base sm:text-lg mt-4 max-w-md reveal" style="transition-delay:0.2s">
+        A curated collection of projects reflecting my interests, skills, and expertise across design, development, and data.
+      </p>
     </div>
   </section>
 
- <!-- Project -->
- <section class="featurette">
-    <div class="featurette-item">
-      <div class="featurette-image">
-            <img src="img/bigdata1.jpg" alt="Featurette image">
-        </div>  
-      <div class="featurette-text">
-            <h2>Analisis Komprehensif Penjualan, Keuangan, dan Perilaku Pelanggan:
-                Strategi Sukses untuk Bisnis Berkelanjutan</h2>
-            <p>Transformed and processed data using Pentaho Data Integration, ensuring clean and reliable datasets.
-                Designed and developed interactive Power BI dashboards to visualize key insights, improving data-driven decision-making processes.</p>
-            <a href="https://www.canva.com/design/DAGYtkCRU1A/J7FsG8W5DhArROkfXdaWCw/edit?utm_content=DAGYtkCRU1A&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton" class="btn">View details &raquo;</a>
-        </div>
-        
-    </div>
-    
-    <div class="featurette-item">
-        <div class="featurette-image">
-            <img src="img/datawarehouse.jpg" alt="Featurette image">
-        </div>
-        <div class="featurette-text">
-            <h2>ETL dan Data Visual Data Penyandang Disabilitas Kemhan dan TNI tahun 2024 dan 2023 : Pendekatan untuk Kebijakan Inklusif dan Berkelanjutan</h2>
-            <p>Completed end-to-end implementation of data warehouse and OLAP solution, involving database design and ETL processes utilizing Pentaho Data Integration. 
-                Developed and deployed Power BI dashboards to visualize data insights, enabling effective decision-making. Conducted comprehensive data analysis to support business intelligence and strategic planning.
-            </p>
-            <a href="https://www.canva.com/design/DAGaer4v7Nc/54APXQqWdBCvE2cincUYww/edit?utm_content=DAGaer4v7Nc&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton" class="btn">View details &raquo;</a>
-        </div>
-    </div>
-    
-</section>
+  <div class="divider-line max-w-6xl mx-auto px-5 mb-16"></div>
 
-  <!-- Social Media Section -->
-  <div id="contact" class="social-media-section">
-    <h1>My Social Media</h1>
-    <div class="icons">
-      <a href="https://www.instagram.com/davtranda/" class="icon instagram"><i class="fab fa-instagram"></i></a>
-      <a href="https://line.me/ti/p/GhmsLXLpbX" class="icon line"><i class="fab fa-line"></i></a>
-      <a href="https://wa.me/6282208216287/" class="icon whatsapp"><i class="fab fa-whatsapp"></i></a>
-      <a href="discordapp.com/users/334629782463447040" class="icon discord"><i class="fab fa-discord"></i></a>
-      <a href="https://www.linkedin.com/in/davy-putra-ananda/" class="icon linkedin"><i class="fab fa-linkedin"></i></a>
+  <!-- SMALL PROJECT CARDS GRID -->
+  <section class="px-5 pb-8">
+    <div class="max-w-6xl mx-auto">
+      <p class="font-display text-accent text-sm font-semibold tracking-widest uppercase mb-2 reveal">Design & Development</p>
+      <h2 class="font-display font-bold text-3xl text-ink mb-10 reveal" style="transition-delay:0.1s">Featured Projects</h2>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+
+        <!-- Card 1: ChemTwist -->
+        <div class="project-card reveal" style="transition-delay:0.0s">
+          <div class="project-card-img-wrap">
+            <img src="img/chemtwist.jpg" alt="Chemtwist"
+              class="project-card-img"
+              onerror="this.parentElement.classList.add('img-placeholder'); this.style.display='none'; this.parentElement.innerHTML+='<span style=\'padding:2rem;\'>CHEMTWIST</span>'">
+          </div>
+          <div class="p-5 flex flex-col flex-1">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="tag tag-design">UI/UX</span>
+              <span class="tag tag-design" style="background:#fff3e8;color:#c8660a;">Figma</span>
+            </div>
+            <h3 class="font-display font-bold text-lg text-ink mb-2">Chemtwist</h3>
+            <p class="font-body text-muted text-sm leading-relaxed flex-1">Creating the Application Interface for the ChemTwist display using Figma.</p>
+            <a href="https://www.figma.com/design/uNl0IZwObj2KluGDWWfKX1/ChemTwist?node-id=0-1&p=f&t=hMUqVUl6cfrYy3xQ-0"
+               class="btn-primary mt-4 self-start" target="_blank">
+              View Project <i class="fas fa-arrow-right text-xs"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Card 2: IKEA -->
+        <div class="project-card reveal" style="transition-delay:0.1s">
+          <div class="project-card-img-wrap">
+            <img src="img/ikea.png" alt="IKEA"
+              class="project-card-img"
+              onerror="this.parentElement.classList.add('img-placeholder'); this.style.display='none'; this.parentElement.innerHTML+='<span style=\'padding:2rem;\'>IKEA</span>'">
+          </div>
+          <div class="p-5 flex flex-col flex-1">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="tag tag-design">UI/UX</span>
+              <span class="tag tag-web" style="background:#e8f0ff;color:#2a4ae8;">SUS</span>
+            </div>
+            <h3 class="font-display font-bold text-lg text-ink mb-2">IKEA Redesign</h3>
+            <p class="font-body text-muted text-sm leading-relaxed flex-1">Redesigning IKEA Indonesia's UI using the SUS framework to improve usability and user experience.</p>
+            <a href="https://docs.google.com/document/d/1tdVAoIiM21z2B9D07xtgsAAX3zkCjmr9alhzN5eNsVo/edit?usp=sharing"
+               class="btn-primary mt-4 self-start" target="_blank">
+              View Project <i class="fas fa-arrow-right text-xs"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Card 3: BisnisPintar -->
+        <div class="project-card reveal" style="transition-delay:0.2s">
+          <div class="project-card-img-wrap">
+            <img src="img/bisnispintar.png" alt="BisnisPintar"
+              class="project-card-img"
+              onerror="this.parentElement.classList.add('img-placeholder'); this.style.display='none'; this.parentElement.innerHTML+='<span style=\'padding:2rem;\'>BISNISPINTAR</span>'">
+          </div>
+          <div class="p-5 flex flex-col flex-1">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="tag tag-mobile">Mobile</span>
+              <span class="tag tag-mobile" style="background:#e8f8ff;color:#0a7acc;">Flutter</span>
+            </div>
+            <h3 class="font-display font-bold text-lg text-ink mb-2">BisnisPintar</h3>
+            <p class="font-body text-muted text-sm leading-relaxed flex-1">Creating the Application Interface for BisnisPintar using Flutter.</p>
+            <a href="https://drive.google.com/drive/folders/1x20bD6qmn1orG5D_4-Rp3e62S1lfQCvK?usp=sharing"
+               class="btn-primary mt-4 self-start" target="_blank">
+              View Project <i class="fas fa-arrow-right text-xs"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Card 4: Sentulgram -->
+        <div class="project-card reveal" style="transition-delay:0.3s">
+          <div class="project-card-img-wrap">
+            <img src="img/sentulgram.png" alt="Sentulgram"
+              class="project-card-img"
+              onerror="this.parentElement.classList.add('img-placeholder'); this.style.display='none'; this.parentElement.innerHTML+='<span style=\'padding:2rem;\'>SENTULGRAM</span>'">
+          </div>
+          <div class="p-5 flex flex-col flex-1">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="tag tag-web">Web</span>
+              <span class="tag tag-web" style="background:#eaffee;color:#1a8c3e;">PHP</span>
+            </div>
+            <h3 class="font-display font-bold text-lg text-ink mb-2">Sentulgram</h3>
+            <p class="font-body text-muted text-sm leading-relaxed flex-1">Social media website with authentication, post management, and responsive UI using HTML, JS, PHP, CSS.</p>
+            <a href="https://docs.google.com/document/d/1oFxRRr0fgvfuo4Q34xFQMnai4xk62U4BXF9xbrB2wDs/edit?tab=t.0"
+               class="btn-primary mt-4 self-start" target="_blank">
+              View Project <i class="fas fa-arrow-right text-xs"></i>
+            </a>
+          </div>
+        </div>
+
+      </div>
     </div>
-  </div>
+  </section>
+
+  <!-- FEATURED / LARGE PROJECTS -->
+  <section class="px-5 py-16">
+    <div class="max-w-6xl mx-auto">
+      <p class="font-display text-accent text-sm font-semibold tracking-widest uppercase mb-2 reveal">Data Engineering & Analytics</p>
+      <h2 class="font-display font-bold text-3xl text-ink mb-10 reveal" style="transition-delay:0.1s">In-Depth Projects</h2>
+
+      <div class="flex flex-col gap-8">
+
+        <!-- Feature 1 -->
+        <div class="feature-card reveal">
+          <div class="feature-img-wrap">
+            <img src="img/bigdata1.jpg" alt="Analisis Penjualan"
+              class="feature-img"
+              onerror="this.parentElement.classList.add('img-placeholder'); this.style.minHeight='260px'; this.style.display='none'; this.parentElement.innerHTML='<div class=\'img-placeholder\' style=\'min-height:260px;\'><span>BIG DATA</span></div>'">
+          </div>
+          <div class="p-8 flex flex-col justify-center">
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="tag tag-data">Big Data</span>
+              <span class="tag tag-dwh">Power BI</span>
+              <span class="tag tag-dwh" style="background:#eefff8;color:#0a8c5a;">Pentaho</span>
+            </div>
+            <h3 class="font-display font-bold text-xl sm:text-2xl text-ink mb-3 leading-snug">
+              Analisis Komprehensif Penjualan, Keuangan, dan Perilaku Pelanggan
+            </h3>
+            <p class="font-body text-muted text-sm leading-relaxed mb-6">
+              Transformed and processed data using Pentaho Data Integration, ensuring clean and reliable datasets.
+              Designed interactive Power BI dashboards to visualize key insights and improve data-driven decision-making.
+            </p>
+            <a href="https://www.canva.com/design/DAGYtkCRU1A/J7FsG8W5DhArROkfXdaWCw/edit"
+               class="btn-primary self-start" target="_blank">
+              View Details <i class="fas fa-arrow-right text-xs"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="feature-card reverse reveal" style="transition-delay:0.1s">
+          <div class="feature-img-wrap">
+            <img src="img/datawarehouse.jpg" alt="Data Warehouse"
+              class="feature-img"
+              onerror="this.parentElement.classList.add('img-placeholder'); this.style.minHeight='260px'; this.style.display='none'; this.parentElement.innerHTML='<div class=\'img-placeholder\' style=\'min-height:260px;\'><span>DATA WAREHOUSE</span></div>'">
+          </div>
+          <div class="p-8 flex flex-col justify-center">
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="tag tag-dwh">Data Warehouse</span>
+              <span class="tag tag-data">ETL</span>
+              <span class="tag tag-dwh">OLAP</span>
+            </div>
+            <h3 class="font-display font-bold text-xl sm:text-2xl text-ink mb-3 leading-snug">
+              ETL & Data Visual — Data Penyandang Disabilitas Kemhan & TNI 2023–2024
+            </h3>
+            <p class="font-body text-muted text-sm leading-relaxed mb-6">
+              End-to-end implementation of a data warehouse and OLAP solution including database design and ETL using Pentaho.
+              Deployed Power BI dashboards to visualize insights and support strategic policy decisions toward inclusivity.
+            </p>
+            <a href="https://www.canva.com/design/DAGaer4v7Nc/54APXQqWdBCvE2cincUYww/edit"
+               class="btn-primary self-start" target="_blank">
+              View Details <i class="fas fa-arrow-right text-xs"></i>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider-line max-w-6xl mx-auto px-5"></div>
+
+  <!-- CONTACT SECTION -->
+  <section id="contact" class="py-20 px-5">
+    <div class="max-w-6xl mx-auto text-center">
+      <div class="reveal mb-12">
+        <p class="font-display text-accent text-sm font-semibold tracking-widest uppercase mb-3">Get In Touch</p>
+        <h2 class="font-display font-extrabold text-4xl sm:text-5xl text-ink mb-4">Let's Connect</h2>
+        <p class="font-body text-muted text-base max-w-md mx-auto">
+          Interested in working together or just want to say hi? Reach out through any of my socials.
+        </p>
+      </div>
+      <div class="flex flex-wrap gap-4 justify-center reveal" style="transition-delay:0.1s">
+        <a href="https://www.instagram.com/davtranda/" class="social-icon instagram" title="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://line.me/ti/p/GhmsLXLpbX" class="social-icon line" title="Line"><i class="fab fa-line"></i></a>
+        <a href="https://wa.me/6282208216287/" class="social-icon whatsapp" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a href="discordapp.com/users/334629782463447040" class="social-icon discord" title="Discord"><i class="fab fa-discord"></i></a>
+        <a href="https://www.linkedin.com/in/davy-putra-ananda/" class="social-icon linkedin" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="py-6 px-5 border-t border-ink/8">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+      <span class="font-display font-bold text-sm text-ink">Dav<span class="text-accent">tranda</span></span>
+      <span class="font-body text-muted text-xs">© 2025 Davy Putra Ananda. All rights reserved.</span>
+    </div>
+  </footer>
+
+  <script>
+    // Navbar scroll
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 20);
+    });
+
+    // Hamburger
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+    });
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        mobileMenu.classList.remove('open');
+      });
+    });
+
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
 </body>
 </html>
